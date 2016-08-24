@@ -60,7 +60,7 @@ loop do
   prompt("Your monthly payment is
     #{calculate_payment(apr_months, amount, duration_months).to_f.round(2)}")
 
-  prompt("Do you want to perform another laon calculation?
+  prompt("Do you want to perform another loan calculation?
     (Y to calculate again)")
   answer = gets.chomp
   break unless answer.downcase.start_with?('y')
