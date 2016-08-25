@@ -65,6 +65,12 @@ loop do
     prompt("Your score is #{player_score}.
       The computer score is #{computer_score}")
 
+    if player_score == 5
+      prompt("***PLAYER WINS!***")
+    elsif computer_score == 5
+      prompt("***COMPUTER WINS!***")
+    end
+
     break unless player_score < 5
     break unless computer_score < 5
   end
