@@ -9,7 +9,7 @@ def display_board(brd)
   puts "     |     |"
   puts "-----+-----+-----"
   puts "     |     |"
-  puts "  #{brd[7]}  |  #{brd[28]}  |  #{brd[9]}"
+  puts "  #{brd[7]}  |  #{brd[8]}  |  #{brd[9]}"
   puts "     |     |"
   puts ""
 end
