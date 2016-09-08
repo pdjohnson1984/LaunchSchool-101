@@ -47,3 +47,7 @@ backwards_sentence = sentence.split.reverse.join(' ')
 #The result is paper. Outter most functions are called first.
 
 #Question 8
+#It will return no. In the method foo, you are using a default paramater, but
+#simply returning "yes" without evaluating the paramater. The second method,
+#bar, takes the input paramater and essentially gives you the opposite by using
+#a ternary if.
