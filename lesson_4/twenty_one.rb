@@ -68,12 +68,12 @@ def find_winner(player_total, dealer_total)
   if dealer_total > 21
     prompt "Dealer busts with a score of #{dealer_total}! You win!"
   elsif player_total > dealer_total
-    prompt "You have #{player_total}."
     prompt "Dealer has #{dealer_total}."
+    prompt "You have #{player_total}."
     prompt "You win!"
   elsif dealer_total > player_total
-    prompt "You have #{player_total}."
     prompt "Dealer has #{dealer_total}."
+    prompt "You have #{player_total}."
     prompt "Dealer wins!"
   else
     prompt "You both have #{player_total}."
@@ -81,24 +81,36 @@ def find_winner(player_total, dealer_total)
   end
 end
 
+def clear_screen
+  system('clear') || system('cls')
+end
+
 loop do
+  clear_screen
   new_deck = {}
   initialize_deck!(new_deck)
 
-  player_hand = deal_hand(new_deck)
   dealer_hand = deal_hand(new_deck)
+  player_hand = deal_hand(new_deck)
 
+  prompt "Dealer has cards #{dealer_hand[0][0]} and unknown."
   display_hand(player_hand, "Player")
   prompt "Player hand has a total of #{calculate_total(player_hand)}"
-  prompt "Dealer has cards #{dealer_hand[0][0]} and unknown."
 
   answer = nil
   player_total = 0
   dealer_total = 0
   loop do
-    prompt "hit or stay?"
-    answer = gets.chomp
+    loop do
+      prompt "hit or stay?"
+      answer = gets.chomp
+      break if answer == 'stay' || answer == 'hit'
+      prompt "#{answer} is not a valid choice. Please choose either hit or stay"
+    end
+
     break if answer == 'stay'
+    clear_screen
+    prompt "Dealer has cards #{dealer_hand[0][0]} and unknown."
     player_hand.concat(deal_card(new_deck))
     display_hand(player_hand, "Player")
     player_total = calculate_total(player_hand)
@@ -115,9 +127,14 @@ loop do
     find_winner(player_total, dealer_total)
   end
 
-  prompt "Play again? (y or n)"
-  answer = gets.chomp
+  loop do
+    prompt "Play again? (y or n)"
+    answer = gets.chomp
+    break if answer == 'y' || answer == 'n'
+    prompt "#{answer} is not a valid choice. Please choose either y or no"
+  end
   break unless answer.downcase.start_with?('y')
+  clear_screen
 end
 
 prompt "Thanks for playing Twenty One! Good Bye!"
