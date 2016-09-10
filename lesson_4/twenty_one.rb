@@ -1,15 +1,3 @@
-require 'pry'
-
-# 1. Initialize deck
-# 2. Deal cards to player and dealer
-# 3. Player turn: hit or stay
-#   - repeat until bust or "stay"
-# 4. If player bust, dealer wins.
-# 5. Dealer turn: hit or stay
-#   - repeat until total >= 17
-# 6. If dealer bust, player wins.
-# 7. Compare cards and declare winner.
-
 CARDS = { "2" => 2, "3" => 3, "4" => 4, "5" => 5, "6" => 6, "7" => 7, "8" => 8,
           "9" => 9, "10" => 10, "jack" => 10, "queen" => 10, "king" => 10,
           "ace" => 'a' }.freeze
@@ -38,23 +26,20 @@ def deal_card(deck)
 end
 
 def remove_card_from_deck!(deck, cards)
-  cards.each { |card| deck.delete(card[0])}
+  cards.each { |card| deck.delete(card[0]) }
   deck
 end
 
 def calculate_total(hand)
-  values = hand.map { |card| card[1]}
+  values = hand.map { |card| card[1] }
 
   sum = 0
   values.each do |value|
-    if value == 'a'
-      sum += 11
-    else
-      sum += value.to_i
-    end
+    sum += value.to_i unless value == 'a'
+    sum += 11 unless value != 'a'
   end
 
-  values.select { |value| value == 1}.count.times do
+  values.select { |value| value == 'a' }.count.times do
     sum -= 10 if sum > 21
   end
 
@@ -82,19 +67,17 @@ end
 def find_winner(player_total, dealer_total)
   if dealer_total > 21
     prompt "Dealer busts with a score of #{dealer_total}! You win!"
+  elsif player_total > dealer_total
+    prompt "You have #{player_total}."
+    prompt "Dealer has #{dealer_total}."
+    prompt "You win!"
+  elsif dealer_total > player_total
+    prompt "You have #{player_total}."
+    prompt "Dealer has #{dealer_total}."
+    prompt "Dealer wins!"
   else
-    if player_total > dealer_total
-      prompt "You have #{player_total}."
-      prompt "Dealer has #{dealer_total}."
-      prompt "You win!"
-    elsif dealer_total > player_total
-      prompt "You have #{player_total}."
-      prompt "Dealer has #{dealer_total}."
-      prompt "Dealer wins!"
-    else
-      prompt "You both have #{player_total}."
-      prompt "It's a draw!"
-    end
+    prompt "You both have #{player_total}."
+    prompt "It's a draw!"
   end
 end
 
